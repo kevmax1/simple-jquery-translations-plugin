@@ -17,9 +17,12 @@ $.getJSON("translate-plugin/translations.json", function(texts) {
                 text= text.replace(numbers, '%n');
         
         if (translate[text]!==undefined) { // Check if exist the text in translation.json                      
-
-            if (translate[text][lang]!==undefined) { // Check if exist the text in the browser language
-                postHTML= translate[text][lang];
+            let appropiateText = translate[text][lang] 
+                        || translate[text][lang.split("-")[0]] 
+                        || translate[text][lang.split("-")[1]] 
+                        || undefined // Check if exist the text in the browser language Fr-fr Fr fr
+            if (appropiateText!==undefined) { //we check if we find a translation that corresponds to the local
+                postHTML= appropiateText;
             } else { // If not exist the lang, show the text in primary Language (Recomend: English)
                 postHTML= text;
             }
